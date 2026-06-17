@@ -290,16 +290,55 @@ def scrape_site(app, urls):
             result = app.scrape_url(url, formats=["markdown"])
             content = result.markdown if hasattr(result, "markdown") else str(result)
             if content:
-                combined.append(f"[URL: {url}]\n{content[:3000]}")
+                # Reducido a 1500 chars por URL para no saturar el contexto
+                combined.append(f"[URL: {url}]\n{content[:1500]}")
         except Exception as e:
             combined.append(f"[URL: {url}]\nError: {str(e)}")
     return "\n\n".join(combined)
 
 
+def fix_truncated_json(text):
+    """Intenta reparar un JSON truncado cerrando estructuras abiertas."""
+    text = text.strip()
+    # Contar llaves y corchetes abiertos
+    stack = []
+    in_string = False
+    escape = False
+    last_valid = 0
+    for i, ch in enumerate(text):
+        if escape:
+            escape = False
+            continue
+        if ch == '\\' and in_string:
+            escape = True
+            continue
+        if ch == '"' and not escape:
+            in_string = not in_string
+            continue
+        if in_string:
+            continue
+        if ch in ('{', '['):
+            stack.append(ch)
+        elif ch == '}' and stack and stack[-1] == '{':
+            stack.pop()
+            last_valid = i + 1
+        elif ch == ']' and stack and stack[-1] == '[':
+            stack.pop()
+            last_valid = i + 1
+    # Cerrar lo que falta
+    if not stack:
+        return text
+    # Truncar al último objeto completo y cerrar
+    repaired = text[:last_valid]
+    for ch in reversed(stack):
+        repaired += '}' if ch == '{' else ']'
+    return repaired
+
+
 def analyze_with_claude(anthropic_key, scraped_data):
     client = anthropic.Anthropic(api_key=anthropic_key)
     blocks = [
-        f"{'='*50}\n{SITES.get(d,{}).get('label',d)} ({d})\n{'='*50}\n{c}"
+        f"=={SITES.get(d,{}).get('label',d)}==\n{c[:1200]}"
         for d, c in scraped_data.items()
     ]
     response = client.messages.create(
@@ -307,10 +346,14 @@ def analyze_with_claude(anthropic_key, scraped_data):
         max_tokens=4000,
         system=ANALYSIS_PROMPT,
         messages=[{"role": "user", "content":
-            f"Analiza estos datos de POS/pagos en Chile. TUU es la referencia.\n\n{''.join(blocks)}\n\nUsa 'N/D' si no encontrás un dato."}]
+            f"Analiza estos datos de POS/pagos en Chile. TUU es la referencia. Sé conciso.\n\n{''.join(blocks)}\n\nUsa 'N/D' si no encontrás un dato. Responde SOLO JSON."}]
     )
     text = response.content[0].text.strip().replace("```json","").replace("```","").strip()
-    return json.loads(text)
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError:
+        repaired = fix_truncated_json(text)
+        return json.loads(repaired)
 
 
 def b(val):
