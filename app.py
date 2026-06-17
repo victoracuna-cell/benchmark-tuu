@@ -232,13 +232,34 @@ header { visibility: hidden; }
 
 # ── Datos ─────────────────────────────────────────────────────────────────────
 SITES = {
-    "tuu.cl": {"urls": ["https://tuu.cl", "https://tuu.cl/precios"], "label": "TUU", "emoji": "⭐"},
-    "transbank.cl": {"urls": ["https://www.transbank.cl/pos"], "label": "Transbank", "emoji": "🏦"},
-    "mercadopago.cl": {"urls": ["https://www.mercadopago.cl/point"], "label": "Mercado Pago", "emoji": "💛"},
-    "sumup.cl": {"urls": ["https://www.sumup.com/es-cl/"], "label": "SumUp", "emoji": "🔵"},
-    "compraqui.cl": {"urls": ["https://www.compraqui.cl"], "label": "Compraquí", "emoji": "🟢"},
-    "getnet.cl": {"urls": ["https://www.getnet.cl"], "label": "Getnet", "emoji": "🟠"},
-    "redelcom.cl": {"urls": ["https://www.redelcom.cl"], "label": "Redelcom", "emoji": "🔴"},
+    "tuu.cl": {
+        "urls": ["https://tuu.cl/precios", "https://tuu.cl"],
+        "label": "TUU", "emoji": "⭐", "max_chars": 2500
+    },
+    "transbank.cl": {
+        "urls": ["https://www.transbank.cl/pos", "https://www.transbank.cl/tarifas"],
+        "label": "Transbank", "emoji": "🏦", "max_chars": 1500
+    },
+    "mercadopago.cl": {
+        "urls": ["https://www.mercadopago.cl/point", "https://www.mercadopago.cl/costos"],
+        "label": "Mercado Pago", "emoji": "💛", "max_chars": 1500
+    },
+    "sumup.cl": {
+        "urls": ["https://www.sumup.com/es-cl/", "https://www.sumup.com/es-cl/tarifas/"],
+        "label": "SumUp", "emoji": "🔵", "max_chars": 1500
+    },
+    "compraqui.cl": {
+        "urls": ["https://www.compraqui.cl", "https://www.compraqui.cl/tarifas"],
+        "label": "Compraquí", "emoji": "🟢", "max_chars": 1500
+    },
+    "getnet.cl": {
+        "urls": ["https://www.getnet.cl", "https://www.getnet.cl/tarifas"],
+        "label": "Getnet", "emoji": "🟠", "max_chars": 1500
+    },
+    "redelcom.cl": {
+        "urls": ["https://www.redelcom.cl", "https://www.redelcom.cl/planes"],
+        "label": "Redelcom", "emoji": "🔴", "max_chars": 1500
+    },
 }
 
 DEFAULTS = ["transbank.cl", "mercadopago.cl", "sumup.cl", "compraqui.cl"]
@@ -430,7 +451,7 @@ if run:
         logs.append(f"⏳ {info['label']} ({domain})")
         status.markdown('<div class="log-box">' + "<br>".join(logs) + "</div>", unsafe_allow_html=True)
         try:
-            content = scrape_site(fc_app, info["urls"])
+            content = scrape_site(fc_app, info["urls"], info.get("max_chars", 1500))
             scraped[domain] = content
             logs[-1] = f"✅ {info['label']} — {len(content):,} caracteres"
         except Exception as e:
