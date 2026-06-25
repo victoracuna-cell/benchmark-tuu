@@ -2,65 +2,61 @@ import streamlit as st
 import plotly.graph_objects as go
 from utils.scoring import COMPETITOR_ORDER, COMPETITOR_COLORS
 
-PLOTLY_LAYOUT = dict(
-    paper_bgcolor="rgba(0,0,0,0)",
-    plot_bgcolor="rgba(0,0,0,0)",
-    font=dict(family="sans-serif", color="#1E3A5F"),
-    margin=dict(t=10, b=10, l=10, r=10),
-)
+TUU_BLUE = "#0128c9"
+TUU_CYAN = "#affffd"
+GRAY = "#d8d8d8"
 
-def _bar(names, vals, colors, ymax):
+def _bar_chart(data, competitors, ordered, field, title):
+    names, vals, colors = [], [], []
+    for c in ordered:
+        v = competitors[c].get("comisiones", {}).get(field)
+        if v is not None:
+            names.append(competitors[c].get("name", c))
+            vals.append(v)
+            colors.append(TUU_BLUE if c == "tuu" else GRAY)
+    if not vals:
+        st.caption("Sin datos.")
+        return
     fig = go.Figure(go.Bar(
-        x=names, y=vals, marker_color=colors,
+        x=names, y=vals, marker_color=colors, marker_line_width=0,
         text=[f"{v:.2f}%" for v in vals], textposition="outside",
-        marker_line_width=0,
+        textfont=dict(size=11, color="#555"),
     ))
     fig.update_layout(
-        **PLOTLY_LAYOUT,
-        yaxis=dict(title="%", range=[0, ymax * 1.35], gridcolor="rgba(30,58,95,0.07)", tickfont=dict(size=11)),
-        xaxis=dict(tickfont=dict(size=12)),
-        height=280,
-        bargap=0.4,
+        paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
+        yaxis=dict(title=None, range=[0, max(vals)*1.35], gridcolor="#f5f5f5",
+                   tickfont=dict(size=10, color="#bbb"), ticksuffix="%"),
+        xaxis=dict(tickfont=dict(size=11, color="#555"), tickangle=0),
+        height=240, margin=dict(t=10, b=10, l=10, r=10),
+        font=dict(family="Inter, sans-serif"),
+        bargap=0.45,
     )
-    return fig
+    st.plotly_chart(fig, use_container_width=True)
 
 def render(data: dict):
     competitors = data.get("competitors", {})
     ordered = [c for c in COMPETITOR_ORDER if c in competitors]
 
-    st.markdown('<div class="glass-card">', unsafe_allow_html=True)
-    st.markdown("**Comisiones por transacción** · Sin IVA · Tarifa base para nuevos comercios")
-
-    col1, col2 = st.columns(2)
+    st.markdown('<div class="card">', unsafe_allow_html=True)
+    st.markdown('<div class="card-label">Comisión por transacción · sin IVA · tarifa base nuevos comercios</div>', unsafe_allow_html=True)
+    col1, col2 = st.columns(2, gap="large")
     with col1:
-        st.markdown("##### Débito nacional")
-        names, vals, colors = [], [], []
-        for c in ordered:
-            v = competitors[c].get("comisiones", {}).get("debito_pct")
-            if v:
-                names.append(competitors[c].get("name", c))
-                vals.append(v); colors.append(COMPETITOR_COLORS.get(c, "#888"))
-        if vals:
-            st.plotly_chart(_bar(names, vals, colors, max(vals)), use_container_width=True)
-
+        st.markdown('<p style="font-size:11px;font-weight:600;color:#333;margin-bottom:8px;">Débito nacional</p>', unsafe_allow_html=True)
+        _bar_chart(data, competitors, ordered, "debito_pct", "Débito")
     with col2:
-        st.markdown("##### Crédito nacional")
-        names, vals, colors = [], [], []
-        for c in ordered:
-            v = competitors[c].get("comisiones", {}).get("credito_pct")
-            if v:
-                names.append(competitors[c].get("name", c))
-                vals.append(v); colors.append(COMPETITOR_COLORS.get(c, "#888"))
-        if vals:
-            st.plotly_chart(_bar(names, vals, colors, max(vals)), use_container_width=True)
+        st.markdown('<p style="font-size:11px;font-weight:600;color:#333;margin-bottom:8px;">Crédito nacional</p>', unsafe_allow_html=True)
+        _bar_chart(data, competitors, ordered, "credito_pct", "Crédito")
     st.markdown('</div>', unsafe_allow_html=True)
 
-    st.markdown('<div class="glass-card">', unsafe_allow_html=True)
-    st.markdown("**Tabla completa de comisiones**")
+    st.markdown('<div class="card">', unsafe_allow_html=True)
+    st.markdown('<div class="card-label">Tabla completa</div>', unsafe_allow_html=True)
     rows = []
-    fields = {"Débito %": "debito_pct", "Crédito %": "credito_pct", "Prepago %": "prepago_pct",
-              "Internacional %": "internacional_pct", "Cargo fijo/tx": "cargo_fijo",
-              "Mensualidad red": "mensualidad_red", "Notas": "notas_comisiones"}
+    fields = {
+        "Débito %": "debito_pct", "Crédito %": "credito_pct",
+        "Prepago %": "prepago_pct", "Internacional %": "internacional_pct",
+        "Cargo fijo/tx": "cargo_fijo", "Mensualidad red": "mensualidad_red",
+        "Notas": "notas_comisiones",
+    }
     for comp in ordered:
         info = competitors[comp]
         com = info.get("comisiones", {})

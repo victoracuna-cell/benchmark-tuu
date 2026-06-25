@@ -13,7 +13,7 @@ def _render_table(data, section_key, fields):
             v = section.get(key)
             row[label] = str(v) if v is not None else "—"
         rows.append(row)
-    st.markdown('<div class="glass-card">', unsafe_allow_html=True)
+    st.markdown('<div class="card">', unsafe_allow_html=True)
     st.dataframe(rows, use_container_width=True, hide_index=True)
     st.caption("Fuente: sitios oficiales scrapeados vía Tavily.")
     st.markdown('</div>', unsafe_allow_html=True)
