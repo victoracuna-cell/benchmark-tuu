@@ -1,6 +1,5 @@
 import streamlit as st
 from utils.styles import GLOBAL_CSS
-from datetime import date
 
 def render_sidebar():
     with st.sidebar:
@@ -14,17 +13,12 @@ def render_sidebar():
         """, unsafe_allow_html=True)
 
         st.markdown('<div class="sb-section">Principal</div>', unsafe_allow_html=True)
-        st.page_link("app.py",               label="Dashboard",        icon="⊞")
-        st.page_link("pages/1_actualizar.py", label="Actualizar datos", icon="↻")
-        st.page_link("pages/2_editar.py",     label="Editar manual",    icon="✎")
-        st.page_link("pages/3_exportar.py",   label="Exportar",         icon="↓")
+        st.page_link("app.py",               label="Dashboard")
+        st.page_link("pages/1_actualizar.py", label="Actualizar datos")
+        st.page_link("pages/2_editar.py",     label="Editar manual")
+        st.page_link("pages/3_exportar.py",   label="Exportar")
 
         st.markdown('<div class="sb-divider"></div>', unsafe_allow_html=True)
-        st.markdown('<div class="sb-section">Vistas</div>', unsafe_allow_html=True)
-        st.page_link("app.py", label="Comisiones",  icon="%")
-        st.page_link("app.py", label="Hardware",    icon="□")
-        st.page_link("app.py", label="Documentos",  icon="≡")
-        st.page_link("app.py", label="Simulador",   icon="◈")
 
         st.markdown(f"""
         <div class="sb-footer">
