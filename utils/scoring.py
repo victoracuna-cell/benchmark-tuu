@@ -9,13 +9,13 @@ DIMENSIONS = [
 ]
 
 DIM_LABELS = {
-    "comisiones": "💸 Comisiones",
-    "hardware":   "🖥️ Hardware",
-    "documentos": "🧾 Documentos tributarios",
-    "abono":      "⏱️ Abono y liquidez",
-    "gestion":    "🛠️ Gestión de negocio",
-    "soporte":    "🎧 Soporte y garantía",
-    "financieros":"💳 Productos financieros",
+    "comisiones": "Comisiones",
+    "hardware":   "Hardware",
+    "documentos": "Documentos tributarios",
+    "abono":      "Abono y liquidez",
+    "gestion":    "Gestión de negocio",
+    "soporte":    "Soporte y garantía",
+    "financieros":"Productos financieros",
 }
 
 COMPETITOR_ORDER = ["tuu", "transbank", "mercadopago", "klap", "getnet", "flow"]
@@ -44,7 +44,7 @@ def get_all_scores(data: dict) -> dict:
         result[comp] = info.get("scores", {})
     return result
 
-def weighted_total(scores: dict, weights: dict | None = None) -> float:
+def weighted_total(scores: dict, weights=None) -> float:
     if weights is None:
         weights = {d: 1.0 for d in DIMENSIONS}
     total = 0.0
