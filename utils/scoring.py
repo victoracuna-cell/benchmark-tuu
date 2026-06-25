@@ -10,12 +10,12 @@ DIMENSIONS = [
 
 DIM_LABELS = {
     "comisiones": "💸 Comisiones",
-    "hardware": "🖥️ Hardware",
+    "hardware":   "🖥️ Hardware",
     "documentos": "🧾 Documentos tributarios",
-    "abono": "⏱️ Abono y liquidez",
-    "gestion": "🛠️ Gestión de negocio",
-    "soporte": "🎧 Soporte y garantía",
-    "financieros": "💳 Productos financieros",
+    "abono":      "⏱️ Abono y liquidez",
+    "gestion":    "🛠️ Gestión de negocio",
+    "soporte":    "🎧 Soporte y garantía",
+    "financieros":"💳 Productos financieros",
 }
 
 COMPETITOR_ORDER = ["tuu", "transbank", "mercadopago", "klap", "getnet", "flow"]
@@ -28,3 +28,31 @@ COMPETITOR_COLORS = {
     "getnet":      "#c0cad8",
     "flow":        "#d8e0ea",
 }
+
+def score_color(score) -> str:
+    if score is None:
+        return "⚪"
+    if score >= 4:
+        return "🟢"
+    if score >= 3:
+        return "🟡"
+    return "🔴"
+
+def get_all_scores(data: dict) -> dict:
+    result = {}
+    for comp, info in data.get("competitors", {}).items():
+        result[comp] = info.get("scores", {})
+    return result
+
+def weighted_total(scores: dict, weights: dict | None = None) -> float:
+    if weights is None:
+        weights = {d: 1.0 for d in DIMENSIONS}
+    total = 0.0
+    w_sum = 0.0
+    for dim in DIMENSIONS:
+        s = scores.get(dim)
+        w = weights.get(dim, 1.0)
+        if s is not None:
+            total += float(s) * w
+            w_sum += w
+    return round(total / w_sum, 2) if w_sum > 0 else 0.0
