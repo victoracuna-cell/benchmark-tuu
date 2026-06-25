@@ -1,7 +1,7 @@
 import streamlit as st
 from utils.styles import GLOBAL_CSS
 from utils.github_storage import load_data, save_data, upsert_competitor
-from utils.tavily_scraper import COMPETITOR_SEEDS
+from utils.firecrawl_scraper import scrape_url, scrape_competitor, COMPETITOR_SEEDS
 from utils.ui import render_sidebar
 import json
 import requests
@@ -11,7 +11,7 @@ st.markdown(GLOBAL_CSS, unsafe_allow_html=True)
 render_sidebar()
 
 st.markdown('<p style="font-size:1.75rem;font-weight:700;color:#0a0a0a;letter-spacing:-0.04em;margin-bottom:0.25rem;">Actualizar datos</p>', unsafe_allow_html=True)
-st.markdown('<p style="font-size:0.7rem;color:#888;margin-bottom:1.5rem;">Extrae desde sitios oficiales con Tavily · Estructura con Llama 3.3 vía Groq</p>', unsafe_allow_html=True)
+st.markdown('<p style="font-size:0.7rem;color:#888;margin-bottom:1.5rem;">Extrae desde sitios oficiales con Firecrawl · Estructura con Llama 3.3 vía Groq</p>', unsafe_allow_html=True)
 
 data = load_data()
 
@@ -27,42 +27,7 @@ SYSTEM_PROMPT = """Eres un extractor de datos estructurados. Extrae datos de una
   "financieros": {"adelanto": "", "monto_max_adelanto": null, "credito": "", "cuotas_sin_interes": "", "comision_cuotas": null, "notas": ""},
   "scores": {"comisiones": 3.0, "hardware": 3.0, "documentos": 3.0, "abono": 3.0, "gestion": 3.0, "soporte": 3.0, "financieros": 3.0}
 }
-Scores 1-5 (5=mejor). null para datos desconocidos. SOLO el JSON."""
-
-def tavily_search(query: str) -> tuple[str, str]:
-    """Returns (content, debug_info)"""
-    key = st.secrets.get("TAVILY_API_KEY", "")
-    if not key:
-        return "", "ERROR: TAVILY_API_KEY no encontrado en secrets"
-
-    try:
-        r = requests.post("https://api.tavily.com/search", json={
-            "api_key": key,
-            "query": query,
-            "search_depth": "advanced",
-            "max_results": 5,
-            "include_raw_content": True,
-        }, timeout=25)
-
-        debug = f"HTTP {r.status_code}"
-        if r.status_code != 200:
-            return "", f"{debug} — {r.text[:200]}"
-
-        results = r.json().get("results", [])
-        debug += f" · {len(results)} resultados"
-
-        parts = []
-        for res in results:
-            text = res.get("raw_content") or res.get("content") or ""
-            if text:
-                parts.append(f"URL: {res.get('url','')}\n{text}")
-
-        content = "\n\n---\n\n".join(parts)[:6000]
-        debug += f" · {len(content)} chars"
-        return content, debug
-
-    except Exception as e:
-        return "", f"Exception: {type(e).__name__}: {e}"
+Scores 1-5 (5=mejor del mercado). null para datos desconocidos. SOLO el JSON."""
 
 def call_groq(comp_name: str, raw_text: str) -> dict:
     from groq import Groq
@@ -82,36 +47,42 @@ def call_groq(comp_name: str, raw_text: str) -> dict:
         raw = parts[1].lstrip("json").strip() if len(parts) > 1 else raw
     return json.loads(raw)
 
-# ── Debug panel ──
-with st.expander("Verificar conexiones antes de scraping", expanded=False):
+# ── Test conexiones ──
+with st.expander("Verificar conexiones", expanded=False):
     col1, col2 = st.columns(2)
     with col1:
-        if st.button("Test Tavily"):
-            key = st.secrets.get("TAVILY_API_KEY", "")
-            st.write(f"Key presente: `{'Sí — ' + key[:8] + '...' if key else 'NO'}`")
-            content, debug = tavily_search("TUU Chile máquina pagos precios")
-            st.write(f"Resultado: `{debug}`")
-            if content:
-                st.success("Tavily funciona correctamente")
+        if st.button("Test Firecrawl"):
+            key = st.secrets.get("FIRECRAWL_API_KEY", "")
+            st.write(f"Key: `{'Sí — ' + key[:10] + '...' if key else 'NO encontrado'}`")
+            r = requests.post(
+                "https://api.firecrawl.dev/v1/scrape",
+                headers={"Authorization": f"Bearer {key}"},
+                json={"url": "https://www.tuu.cl/precios", "formats": ["markdown"], "onlyMainContent": True},
+                timeout=20,
+            )
+            st.write(f"HTTP: `{r.status_code}`")
+            if r.status_code == 200:
+                content = r.json().get("data", {}).get("markdown", "")
+                st.success(f"Firecrawl OK — {len(content)} chars extraídos")
                 st.text(content[:300] + "...")
             else:
-                st.error("Tavily no retornó contenido")
+                st.error(f"Error: {r.text[:200]}")
     with col2:
         if st.button("Test Groq"):
             try:
                 from groq import Groq
                 key = st.secrets.get("GROQ_API_KEY", "")
-                st.write(f"Key presente: `{'Sí — ' + key[:8] + '...' if key else 'NO'}`")
+                st.write(f"Key: `{'Sí — ' + key[:8] + '...' if key else 'NO encontrado'}`")
                 client = Groq(api_key=key)
                 r = client.chat.completions.create(
-                    model="llama-3.3-70b-versatile",
-                    max_tokens=20,
-                    messages=[{"role": "user", "content": "Responde solo: OK"}]
+                    model="llama-3.3-70b-versatile", max_tokens=10,
+                    messages=[{"role": "user", "content": "Responde: OK"}]
                 )
-                st.success(f"Groq OK — respuesta: {r.choices[0].message.content}")
+                st.success(f"Groq OK — {r.choices[0].message.content}")
             except Exception as e:
-                st.error(f"Error Groq: {e}")
+                st.error(f"Error: {e}")
 
+# ── Formulario scraping ──
 st.markdown('<div class="card">', unsafe_allow_html=True)
 with st.form("scrape_form"):
     col1, col2 = st.columns([3, 1])
@@ -139,15 +110,14 @@ if submitted and selected_comps:
 
         with st.status(f"{comp_name}", expanded=True) as status:
             try:
-                query = f"{comp_name} Chile precios comisiones tarifas máquina POS boleta electrónica"
-                raw_text, debug = tavily_search(query)
-                status.write(f"Tavily: {debug}")
+                status.write(f"Scrapeando {len(seed['pages'])} páginas con Firecrawl...")
+                raw_text = scrape_competitor(seed)
 
                 if not raw_text.strip():
-                    status.update(label=f"{comp_name} — sin contenido ({debug})", state="error")
+                    status.update(label=f"{comp_name} — sin contenido extraído", state="error")
                     continue
 
-                status.write(f"Estructurando con Groq...")
+                status.write(f"{len(raw_text)} chars extraídos · estructurando con Groq...")
                 structured = call_groq(comp_name, raw_text)
                 data = upsert_competitor(data, comp_key, structured)
                 status.update(label=f"{comp_name} — listo", state="complete")
