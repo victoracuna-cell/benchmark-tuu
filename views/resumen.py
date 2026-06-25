@@ -18,7 +18,7 @@ def render(data: dict):
     with col_radar:
         st.markdown('<div class="card">', unsafe_allow_html=True)
         st.markdown('<div class="card-label">Radar comparativo</div>', unsafe_allow_html=True)
-        dim_labels = [DIM_LABELS[d].split(" ", 1)[1] for d in DIMENSIONS]
+        dim_labels = [DIM_LABELS[d].split(" ", 1)[-1] for d in DIMENSIONS]
         fig = go.Figure()
         for comp in ordered:
             scores = all_scores.get(comp, {})
