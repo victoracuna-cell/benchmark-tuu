@@ -29,25 +29,40 @@ SYSTEM_PROMPT = """Eres un extractor de datos estructurados. Extrae datos de una
 }
 Scores 1-5 (5=mejor). null para datos desconocidos. SOLO el JSON."""
 
-def tavily_search(query: str) -> str:
-    """Search with Tavily and return combined text content."""
+def tavily_search(query: str) -> tuple[str, str]:
+    """Returns (content, debug_info)"""
     key = st.secrets.get("TAVILY_API_KEY", "")
-    r = requests.post("https://api.tavily.com/search", json={
-        "api_key": key,
-        "query": query,
-        "search_depth": "advanced",
-        "max_results": 5,
-        "include_raw_content": True,
-    }, timeout=25)
-    if r.status_code != 200:
-        return ""
-    results = r.json().get("results", [])
-    parts = []
-    for res in results:
-        text = res.get("raw_content") or res.get("content") or ""
-        if text:
-            parts.append(f"URL: {res.get('url','')}\n{text}")
-    return "\n\n---\n\n".join(parts)[:6000]
+    if not key:
+        return "", "ERROR: TAVILY_API_KEY no encontrado en secrets"
+
+    try:
+        r = requests.post("https://api.tavily.com/search", json={
+            "api_key": key,
+            "query": query,
+            "search_depth": "advanced",
+            "max_results": 5,
+            "include_raw_content": True,
+        }, timeout=25)
+
+        debug = f"HTTP {r.status_code}"
+        if r.status_code != 200:
+            return "", f"{debug} — {r.text[:200]}"
+
+        results = r.json().get("results", [])
+        debug += f" · {len(results)} resultados"
+
+        parts = []
+        for res in results:
+            text = res.get("raw_content") or res.get("content") or ""
+            if text:
+                parts.append(f"URL: {res.get('url','')}\n{text}")
+
+        content = "\n\n---\n\n".join(parts)[:6000]
+        debug += f" · {len(content)} chars"
+        return content, debug
+
+    except Exception as e:
+        return "", f"Exception: {type(e).__name__}: {e}"
 
 def call_groq(comp_name: str, raw_text: str) -> dict:
     from groq import Groq
@@ -66,6 +81,36 @@ def call_groq(comp_name: str, raw_text: str) -> dict:
         parts = raw.split("```")
         raw = parts[1].lstrip("json").strip() if len(parts) > 1 else raw
     return json.loads(raw)
+
+# ── Debug panel ──
+with st.expander("Verificar conexiones antes de scraping", expanded=False):
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("Test Tavily"):
+            key = st.secrets.get("TAVILY_API_KEY", "")
+            st.write(f"Key presente: `{'Sí — ' + key[:8] + '...' if key else 'NO'}`")
+            content, debug = tavily_search("TUU Chile máquina pagos precios")
+            st.write(f"Resultado: `{debug}`")
+            if content:
+                st.success("Tavily funciona correctamente")
+                st.text(content[:300] + "...")
+            else:
+                st.error("Tavily no retornó contenido")
+    with col2:
+        if st.button("Test Groq"):
+            try:
+                from groq import Groq
+                key = st.secrets.get("GROQ_API_KEY", "")
+                st.write(f"Key presente: `{'Sí — ' + key[:8] + '...' if key else 'NO'}`")
+                client = Groq(api_key=key)
+                r = client.chat.completions.create(
+                    model="llama-3.3-70b-versatile",
+                    max_tokens=20,
+                    messages=[{"role": "user", "content": "Responde solo: OK"}]
+                )
+                st.success(f"Groq OK — respuesta: {r.choices[0].message.content}")
+            except Exception as e:
+                st.error(f"Error Groq: {e}")
 
 st.markdown('<div class="card">', unsafe_allow_html=True)
 with st.form("scrape_form"):
@@ -94,16 +139,15 @@ if submitted and selected_comps:
 
         with st.status(f"{comp_name}", expanded=True) as status:
             try:
-                # Buscar con Tavily search (más confiable que extract)
-                query = f"{comp_name} Chile precios comisiones tarifas máquina POS boleta electrónica garantía soporte"
-                status.update(label=f"{comp_name} — buscando en Tavily...")
-                raw_text = tavily_search(query)
+                query = f"{comp_name} Chile precios comisiones tarifas máquina POS boleta electrónica"
+                raw_text, debug = tavily_search(query)
+                status.write(f"Tavily: {debug}")
 
                 if not raw_text.strip():
-                    status.update(label=f"{comp_name} — sin resultados de búsqueda", state="error")
+                    status.update(label=f"{comp_name} — sin contenido ({debug})", state="error")
                     continue
 
-                status.update(label=f"{comp_name} — {len(raw_text)} chars · estructurando con Groq...")
+                status.write(f"Estructurando con Groq...")
                 structured = call_groq(comp_name, raw_text)
                 data = upsert_competitor(data, comp_key, structured)
                 status.update(label=f"{comp_name} — listo", state="complete")
@@ -111,7 +155,7 @@ if submitted and selected_comps:
             except json.JSONDecodeError as e:
                 status.update(label=f"{comp_name} — JSON inválido: {e}", state="error")
             except Exception as e:
-                status.update(label=f"{comp_name} — error: {type(e).__name__}: {e}", state="error")
+                status.update(label=f"{comp_name} — {type(e).__name__}: {e}", state="error")
 
     progress.progress(1.0, text="Guardando en GitHub...")
     if save_data(data, f"chore: scraping — {', '.join(selected_comps)}"):
