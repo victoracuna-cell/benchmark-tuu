@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-06-25T20:41:23.689566+00:00",
+  "last_updated": "2026-06-25T22:06:25.503960+00:00",
   "competitors": {
     "tuu": {
       "name": "TUU",
@@ -9,7 +9,7 @@
         "prepago_pct": 1.49,
         "internacional_pct": null,
         "cargo_fijo": 65,
-        "mensualidad_red": null,
+        "mensualidad_red": 15000,
         "notas_comisiones": "La comisión más baja del mercado, misma comisión para pagos con débito, crédito y prepago"
       },
       "hardware": {
@@ -22,7 +22,7 @@
         "impresora": "",
         "conectividad": "",
         "garantia": "",
-        "notas": "Máquina de Pagos PRO 2 con 55% de descuento"
+        "notas": "55% de descuento en la máquina de pagos PRO 2"
       },
       "documentos": {
         "boleta": "Emite boletas y facturas sin límites ni comisiones adicionales",
@@ -34,16 +34,16 @@
       },
       "abono": {
         "plazo_estandar": "1 día hábil",
-        "abono_inmediato": "Recibe el abono de tus ventas diarias el mismo día solicitando abono inmediato",
+        "abono_inmediato": "Recibe el abono de tus ventas diarias el mismo día solicitando abono inmediato desde tu POS",
         "costo_abono_inmediato": null,
         "destino": "",
         "fines_de_semana": "",
         "notas": "Tus abonos desde 1 día hábil, en todas tus transacciones"
       },
       "gestion": {
-        "pos": "Punto de venta con catálogo e inventario",
+        "pos": "Punto de venta con catálogo, inventario y punto de venta",
         "catalogo": "Catálogo con productos ilimitados y variantes de producto",
-        "inventario": "Inventario ilimitado sin tope de bodegas y/o sucursales",
+        "inventario": "Inventarios ilimitados sin tope de bodegas y/o sucursales",
         "agenda": "Agenda online con sistema de reserva de horas",
         "multilocal": "",
         "reportes": "",
