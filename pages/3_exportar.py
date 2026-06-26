@@ -9,6 +9,9 @@ from utils.scoring import COMPETITOR_ORDER, DIMENSIONS, DIM_LABELS
 
 st.set_page_config(page_title="Exportar · Benchmark TUU", layout="wide")
 st.markdown(GLOBAL_CSS, unsafe_allow_html=True)
+from utils.auth import require_admin
+require_admin()
+
 render_sidebar()
 
 st.title("📥 Exportar datos")
