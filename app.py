@@ -14,7 +14,10 @@ from utils.ui import render_sidebar
 from datetime import date
 
 # ── Auth gate ──
-if "user" not in st.session_state:
+if "user" not in st.session_state or "access_token" not in st.session_state:
+    # Clear any partial state
+    for key in ["user", "role", "access_token", "user_id", "user_name"]:
+        st.session_state.pop(key, None)
     render_login()
     st.stop()
 
