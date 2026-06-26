@@ -8,6 +8,9 @@ import requests
 
 st.set_page_config(page_title="Actualizar · Benchmark TUU", layout="wide")
 st.markdown(GLOBAL_CSS, unsafe_allow_html=True)
+from utils.auth import require_admin
+require_admin()
+
 render_sidebar()
 
 st.markdown('<p style="font-size:1.75rem;font-weight:700;color:#0a0a0a;letter-spacing:-0.04em;margin-bottom:0.25rem;">Actualizar datos</p>', unsafe_allow_html=True)
