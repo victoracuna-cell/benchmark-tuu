@@ -8,7 +8,7 @@
         "prepago_pct": 1.49,
         "internacional_pct": null,
         "cargo_fijo": 65,
-        "mensualidad_red": null,
+        "mensualidad_red": 15000,
         "notas_comisiones": "La comisión más baja del mercado, misma comisión para pagos con débito, crédito y prepago."
       },
       "hardware": {
@@ -60,10 +60,10 @@
       "financieros": {
         "adelanto": "TUU Adelanto, acepta pagos con TUU y obtén un adelanto de tus ventas de hasta $15 millones",
         "monto_max_adelanto": 15000000,
-        "credito": "",
-        "cuotas_sin_interes": "Cuotas TUU, vende más ofreciendo a tus clientes pagar en cuotas con un interés más bajo",
+        "credito": "Cuotas TUU, vende más ofreciendo a tus clientes pagar en cuotas con un interés más bajo",
+        "cuotas_sin_interes": "",
         "comision_cuotas": null,
-        "notas": "Financiamiento con TUU Adelanto y Cuotas TUU"
+        "notas": "Financiamiento con adelanto y cuotas"
       },
       "scores": {
         "comisiones": 5,
@@ -84,27 +84,27 @@
         "internacional_pct": 2.88,
         "cargo_fijo": 77,
         "mensualidad_red": 0.39,
-        "notas_comisiones": "Tarifa por servicio de red por cada equipo, UF 0,39 + IVA para SmartPOS y POS tradicional"
+        "notas_comisiones": "Comisión por transacción: $77 + 0,62% para débito, 1,39% para crédito, 1,06% para prepago y 2,88% para internacionales"
       },
       "hardware": {
         "modelo_principal": "SmartPOS (Android)",
         "precio_lista_clp": null,
         "precio_oferta_clp": null,
         "modalidad": "arriendo",
-        "mensualidad": 0,
+        "mensualidad": 0.39,
         "pantalla": "",
         "impresora": "",
         "conectividad": "",
         "garantia": "",
-        "notas": "No se cobra mensualidad si se venden más de $200.000 en recargas, juegos de azar y el 10% de otros servicios"
+        "notas": "Tarifa mensual de arriendo de $0,39 UF + IVA"
       },
       "documentos": {
-        "boleta": "Boleta Electrónica",
+        "boleta": "Boleta electrónica",
         "costo_boleta_mes": 0.39,
         "factura": "",
         "costo_factura_mes": null,
         "guia_despacho": "",
-        "notas": "El costo de la boleta electrónica es de 0,39 UF + IVA al mes"
+        "notas": "Costo de boleta electrónica: $0,39 UF + IVA al mes"
       },
       "abono": {
         "plazo_estandar": "",
@@ -144,12 +144,312 @@
         "comisiones": 4,
         "hardware": 4,
         "documentos": 4,
-        "abono": 3,
-        "gestion": 3,
-        "soporte": 3,
+        "abono": 1,
+        "gestion": 2,
+        "soporte": 1,
+        "financieros": 1
+      }
+    },
+    "transbank": {
+      "name": "Transbank",
+      "comisiones": {
+        "debito_pct": 1.75,
+        "credito_pct": 2.35,
+        "prepago_pct": 1.75,
+        "internacional_pct": 2.35,
+        "cargo_fijo": null,
+        "mensualidad_red": null,
+        "notas_comisiones": "Comisión mínima de 0,002260 UF para débito/prepago y 0,003515 UF para crédito"
+      },
+      "hardware": {
+        "modelo_principal": "Mobile POS",
+        "precio_lista_clp": null,
+        "precio_oferta_clp": null,
+        "modalidad": "compra",
+        "mensualidad": null,
+        "pantalla": "",
+        "impresora": "",
+        "conectividad": "",
+        "garantia": "",
+        "notas": ""
+      },
+      "documentos": {
+        "boleta": "",
+        "costo_boleta_mes": null,
+        "factura": "",
+        "costo_factura_mes": null,
+        "guia_despacho": "",
+        "notas": ""
+      },
+      "abono": {
+        "plazo_estandar": "24 a 72 horas",
+        "abono_inmediato": "",
+        "costo_abono_inmediato": null,
+        "destino": "",
+        "fines_de_semana": "",
+        "notas": ""
+      },
+      "gestion": {
+        "pos": "Portal de Clientes y App",
+        "catalogo": "",
+        "inventario": "",
+        "agenda": "",
+        "multilocal": "",
+        "reportes": "",
+        "app_movil": "",
+        "notas": ""
+      },
+      "soporte": {
+        "canales": "Whatsapp, teléfono, chat en línea",
+        "horario": "Lunes a domingo de 08:00 a 22:00 horas",
+        "garantia": "",
+        "tiempo_respuesta": "",
+        "sla": "",
+        "notas": ""
+      },
+      "financieros": {
+        "adelanto": "",
+        "monto_max_adelanto": null,
+        "credito": "",
+        "cuotas_sin_interes": "",
+        "comision_cuotas": null,
+        "notas": ""
+      },
+      "scores": {
+        "comisiones": 4,
+        "hardware": 3,
+        "documentos": 3,
+        "abono": 4,
+        "gestion": 4,
+        "soporte": 5,
         "financieros": 3
+      }
+    },
+    "mercadopago": {
+      "name": "Mercado Pago",
+      "comisiones": {
+        "debito_pct": 1.59,
+        "credito_pct": 2.39,
+        "prepago_pct": 2.95,
+        "internacional_pct": null,
+        "cargo_fijo": null,
+        "mensualidad_red": null,
+        "notas_comisiones": "Comisiones para más de $ 8 millones: Point Smart 2 Débito 1,59%, Crédito 2,39%. Point Mini Débito 2,95%, Crédito 2,95%. Comisión por ofrecer cuotas sin interés se sumará al monto que pagas por cobro con tarjeta de crédito."
+      },
+      "hardware": {
+        "modelo_principal": "POINT SMART 2",
+        "precio_lista_clp": 49900,
+        "precio_oferta_clp": 49900,
+        "modalidad": "compra",
+        "mensualidad": null,
+        "pantalla": "",
+        "impresora": "",
+        "conectividad": "",
+        "garantia": "",
+        "notas": "Envío gratis a todo Chile. Precio promocional: $49.900 o 12x $4.158 sin interés"
+      },
+      "documentos": {
+        "boleta": "",
+        "costo_boleta_mes": null,
+        "factura": "",
+        "costo_factura_mes": null,
+        "guia_despacho": "",
+        "notas": ""
+      },
+      "abono": {
+        "plazo_estandar": "",
+        "abono_inmediato": "al instante",
+        "costo_abono_inmediato": null,
+        "destino": "",
+        "fines_de_semana": "",
+        "notas": ""
+      },
+      "gestion": {
+        "pos": "",
+        "catalogo": "",
+        "inventario": "",
+        "agenda": "",
+        "multilocal": "",
+        "reportes": "",
+        "app_movil": "",
+        "notas": ""
+      },
+      "soporte": {
+        "canales": "",
+        "horario": "",
+        "garantia": "",
+        "tiempo_respuesta": "",
+        "sla": "",
+        "notas": ""
+      },
+      "financieros": {
+        "adelanto": "",
+        "monto_max_adelanto": null,
+        "credito": "",
+        "cuotas_sin_interes": "3, 6, 9, 12 cuotas",
+        "comision_cuotas": "1,99%, 3,49%, 4,99%, 6,99%",
+        "notas": ""
+      },
+      "scores": {
+        "comisiones": 4,
+        "hardware": 4,
+        "documentos": 2,
+        "abono": 5,
+        "gestion": 2,
+        "soporte": 2,
+        "financieros": 4
+      }
+    },
+    "getnet": {
+      "name": "Getnet (Santander)",
+      "comisiones": {
+        "debito_pct": 0.39,
+        "credito_pct": 0.39,
+        "prepago_pct": null,
+        "internacional_pct": null,
+        "cargo_fijo": null,
+        "mensualidad_red": 0.39,
+        "notas_comisiones": "UF + IVA Mensual por equipo"
+      },
+      "hardware": {
+        "modelo_principal": "",
+        "precio_lista_clp": null,
+        "precio_oferta_clp": null,
+        "modalidad": "",
+        "mensualidad": null,
+        "pantalla": "",
+        "impresora": "",
+        "conectividad": "",
+        "garantia": "",
+        "notas": ""
+      },
+      "documentos": {
+        "boleta": "",
+        "costo_boleta_mes": null,
+        "factura": "",
+        "costo_factura_mes": null,
+        "guia_despacho": "",
+        "notas": ""
+      },
+      "abono": {
+        "plazo_estandar": "",
+        "abono_inmediato": "",
+        "costo_abono_inmediato": null,
+        "destino": "",
+        "fines_de_semana": "",
+        "notas": ""
+      },
+      "gestion": {
+        "pos": "",
+        "catalogo": "",
+        "inventario": "",
+        "agenda": "",
+        "multilocal": "",
+        "reportes": "",
+        "app_movil": "",
+        "notas": ""
+      },
+      "soporte": {
+        "canales": "",
+        "horario": "",
+        "garantia": "",
+        "tiempo_respuesta": "",
+        "sla": "",
+        "notas": ""
+      },
+      "financieros": {
+        "adelanto": "",
+        "monto_max_adelanto": null,
+        "credito": "",
+        "cuotas_sin_interes": "",
+        "comision_cuotas": null,
+        "notas": ""
+      },
+      "scores": {
+        "comisiones": 4.0,
+        "hardware": 1.0,
+        "documentos": 1.0,
+        "abono": 1.0,
+        "gestion": 1.0,
+        "soporte": 1.0,
+        "financieros": 1.0
+      }
+    },
+    "flow": {
+      "name": "Flow",
+      "comisiones": {
+        "debito_pct": null,
+        "credito_pct": null,
+        "prepago_pct": null,
+        "internacional_pct": null,
+        "cargo_fijo": null,
+        "mensualidad_red": null,
+        "notas_comisiones": "Información no disponible"
+      },
+      "hardware": {
+        "modelo_principal": "",
+        "precio_lista_clp": null,
+        "precio_oferta_clp": null,
+        "modalidad": "",
+        "mensualidad": null,
+        "pantalla": "",
+        "impresora": "",
+        "conectividad": "",
+        "garantia": "",
+        "notas": "Información no disponible"
+      },
+      "documentos": {
+        "boleta": "",
+        "costo_boleta_mes": null,
+        "factura": "",
+        "costo_factura_mes": null,
+        "guia_despacho": "",
+        "notas": "Información no disponible"
+      },
+      "abono": {
+        "plazo_estandar": "",
+        "abono_inmediato": "",
+        "costo_abono_inmediato": null,
+        "destino": "",
+        "fines_de_semana": "",
+        "notas": "Información no disponible"
+      },
+      "gestion": {
+        "pos": "",
+        "catalogo": "",
+        "inventario": "",
+        "agenda": "",
+        "multilocal": "",
+        "reportes": "",
+        "app_movil": "",
+        "notas": "Información no disponible"
+      },
+      "soporte": {
+        "canales": "",
+        "horario": "",
+        "garantia": "",
+        "tiempo_respuesta": "",
+        "sla": "",
+        "notas": "Información no disponible"
+      },
+      "financieros": {
+        "adelanto": "",
+        "monto_max_adelanto": null,
+        "credito": "",
+        "cuotas_sin_interes": "",
+        "comision_cuotas": null,
+        "notas": "Información no disponible"
+      },
+      "scores": {
+        "comisiones": 1.0,
+        "hardware": 1.0,
+        "documentos": 1.0,
+        "abono": 1.0,
+        "gestion": 1.0,
+        "soporte": 1.0,
+        "financieros": 1.0
       }
     }
   },
-  "last_updated": "2026-06-26T15:22:24.207012+00:00"
+  "last_updated": "2026-06-26T15:24:35.031823+00:00"
 }
