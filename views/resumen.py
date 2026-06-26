@@ -33,7 +33,7 @@ def render(data: dict):
                 line_color=COMPETITOR_COLORS.get(comp, "#ccc"),
                 opacity=1.0 if is_tuu else 0.4,
                 line_width=2.5 if is_tuu else 1,
-                fillcolor=f"rgba(1,40,201,0.08)" if is_tuu else "rgba(0,0,0,0.02)",
+                fillcolor="rgba(1,40,201,0.08)" if is_tuu else "rgba(0,0,0,0.02)",
             ))
         fig.update_layout(
             polar=dict(
@@ -61,21 +61,19 @@ def render(data: dict):
             is_tuu = comp == "tuu"
             if is_tuu:
                 st.markdown(f"""
-                <div style="display:flex; align-items:center; gap:10px; padding:9px 10px;
-                     background:#f5f7ff; border:1px solid rgba(1,40,201,0.12); border-radius:8px; margin-bottom:4px;">
-                  <span style="font-size:11px; font-weight:700; color:#0128c9; width:16px;">{i+1}</span>
-                  <span style="font-size:13px; font-weight:600; color:#0128c9; flex:1;">{info.get('name', comp)}</span>
-                  <span style="font-size:11px; background:#affffd; color:#0128c9; font-weight:700;
-                        padding:2px 7px; border-radius:99px; font-size:9px; margin-right:4px;">líder</span>
-                  <span style="font-size:13px; font-weight:700; color:#0128c9;">{total:.1f}</span>
+                <div style="display:flex;align-items:center;gap:10px;padding:9px 10px;
+                     background:#f5f7ff;border:1px solid rgba(1,40,201,0.12);border-radius:8px;margin-bottom:4px;">
+                  <span style="font-size:11px;font-weight:700;color:#0128c9;width:16px;">{i+1}</span>
+                  <span style="font-size:13px;font-weight:600;color:#0128c9;flex:1;">{info.get('name', comp)}</span>
+                  <span style="font-size:9px;background:#affffd;color:#0128c9;font-weight:700;padding:2px 7px;border-radius:99px;margin-right:4px;">líder</span>
+                  <span style="font-size:13px;font-weight:700;color:#0128c9;">{total:.1f}</span>
                 </div>""", unsafe_allow_html=True)
             else:
                 st.markdown(f"""
-                <div style="display:flex; align-items:center; gap:10px; padding:9px 10px;
-                     border-bottom:1px solid #f5f5f5; margin-bottom:0;">
-                  <span style="font-size:11px; color:#bbb; width:16px; font-weight:600;">{i+1}</span>
-                  <span style="font-size:12px; color:#555; flex:1;">{info.get('name', comp)}</span>
-                  <span style="font-size:12px; color:#555; font-weight:500;">{total:.1f}</span>
+                <div style="display:flex;align-items:center;gap:10px;padding:9px 10px;border-bottom:1px solid #f5f5f5;">
+                  <span style="font-size:11px;color:#bbb;width:16px;font-weight:600;">{i+1}</span>
+                  <span style="font-size:12px;color:#555;flex:1;">{info.get('name', comp)}</span>
+                  <span style="font-size:12px;color:#555;font-weight:500;">{total:.1f}</span>
                 </div>""", unsafe_allow_html=True)
         st.markdown('</div>', unsafe_allow_html=True)
 
@@ -93,7 +91,7 @@ def render(data: dict):
                     dots += '<div style="width:18px;height:4px;border-radius:99px;background:#affffd;border:1px solid #0128c9;"></div>'
                 else:
                     dots += '<div style="width:18px;height:4px;border-radius:99px;background:#f0f0f0;"></div>'
-            label = DIM_LABELS[dim].split(" ", 1)[1]
+            label = DIM_LABELS[dim].split(" ", 1)[-1]
             st.markdown(f"""
             <div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid #f5f5f5;">
               <span style="font-size:11px;color:#555;width:105px;flex-shrink:0;">{label}</span>
