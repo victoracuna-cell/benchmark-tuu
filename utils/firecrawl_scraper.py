@@ -35,7 +35,7 @@ def scrape_with_tavily_extract(urls: list, query: str = "") -> str:
     except Exception:
         return ""
 
-def scrape_with_browserless(url: str, wait_for: int = 3000) -> str:
+def scrape_with_browserless(url: str) -> str:
     """Browserless — best for JS-heavy sites (Mercado Pago, Klap)."""
     key = _bl_key()
     if not key:
@@ -44,7 +44,7 @@ def scrape_with_browserless(url: str, wait_for: int = 3000) -> str:
         r = requests.post(
             f"{BROWSERLESS_API}/content",
             params={"token": key},
-            json={"url": url, "waitFor": wait_for},
+            json={"url": url},
             timeout=35,
         )
         if r.status_code != 200:
