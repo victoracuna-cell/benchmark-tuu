@@ -10,9 +10,10 @@ def render_sidebar():
             <div class="sb-brand">Benchmark TUU</div>
         </div>
         <div class="sb-caption">Análisis competitivo · Chile</div>
+
+        <div class="sb-section">Principal</div>
         """, unsafe_allow_html=True)
 
-        st.markdown('<div class="sb-section">Principal</div>', unsafe_allow_html=True)
         st.page_link("app.py",               label="Dashboard")
         st.page_link("pages/1_actualizar.py", label="Actualizar datos")
         st.page_link("pages/2_editar.py",     label="Editar manual")
@@ -20,9 +21,9 @@ def render_sidebar():
 
         st.markdown('<div class="sb-divider"></div>', unsafe_allow_html=True)
 
-        st.markdown(f"""
+        st.markdown("""
         <div class="sb-footer">
-            Tavily · Groq · GitHub<br>
-            Datos scrapeados en vivo
+            Browserless · Groq · GitHub<br>
+            Datos en tiempo real
         </div>
         """, unsafe_allow_html=True)
