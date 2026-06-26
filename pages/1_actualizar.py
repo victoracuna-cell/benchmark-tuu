@@ -58,7 +58,7 @@ with st.expander("Verificar conexiones", expanded=False):
             r = requests.post(
                 "https://chrome.browserless.io/content",
                 params={"token": key},
-                json={"url": "https://www.tuu.cl/precios", "waitFor": 2000},
+                json={"url": "https://www.tuu.cl/precios"},
                 timeout=25,
             )
             st.write(f"HTTP: `{r.status_code}`")
