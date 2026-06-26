@@ -5,14 +5,14 @@
       "comisiones": {
         "debito_pct": 1.49,
         "credito_pct": 1.49,
-        "prepago_pct": 1.49,
+        "prepago_pct": null,
         "internacional_pct": null,
-        "cargo_fijo": 65,
-        "mensualidad_red": 15000,
-        "notas_comisiones": "La comisión más baja del mercado, misma comisión para pagos con débito, crédito y prepago."
+        "cargo_fijo": null,
+        "mensualidad_red": null,
+        "notas_comisiones": ""
       },
       "hardware": {
-        "modelo_principal": "Máquina de Pagos PRO 2",
+        "modelo_principal": "PRO 2",
         "precio_lista_clp": null,
         "precio_oferta_clp": null,
         "modalidad": "compra",
@@ -21,33 +21,33 @@
         "impresora": "",
         "conectividad": "",
         "garantia": "",
-        "notas": "Máquina de Pagos PRO 2 con 55% de descuento"
+        "notas": "55% de descuento"
       },
       "documentos": {
         "boleta": "Emite boletas y facturas sin límites ni comisiones adicionales",
         "costo_boleta_mes": null,
-        "factura": "Emite facturas sin límites ni comisiones adicionales",
+        "factura": "Emite boletas y facturas sin límites ni comisiones adicionales",
         "costo_factura_mes": null,
-        "guia_despacho": "Emite guía de despacho electrónica",
-        "notas": "Emisión ilimitada de boletas, facturas y guías de despacho electrónicas"
+        "guia_despacho": "",
+        "notas": ""
       },
       "abono": {
         "plazo_estandar": "1 día hábil",
-        "abono_inmediato": "Recibe el abono de tus ventas diarias el mismo día solicitando abono inmediato",
+        "abono_inmediato": "Disponible, con recargo de comisión",
         "costo_abono_inmediato": null,
-        "destino": "",
-        "fines_de_semana": "",
-        "notas": "Tus abonos desde 1 día hábil, en todas tus transacciones"
+        "destino": "Cuenta bancaria",
+        "fines_de_semana": "Disponible",
+        "notas": "Monto máximo: $1.000.000 diarios"
       },
       "gestion": {
-        "pos": "Punto de venta para vender ágilmente con catálogo e inventario",
-        "catalogo": "Catálogo con productos ilimitados y variantes de producto",
-        "inventario": "Inventario ilimitado sin tope de bodegas y/o sucursales",
-        "agenda": "Agenda online con sistema de reserva de horas",
+        "pos": "Punto de venta",
+        "catalogo": "Catálogo de productos",
+        "inventario": "Control de stock",
+        "agenda": "Reserva de horas",
         "multilocal": "",
         "reportes": "",
         "app_movil": "",
-        "notas": "Gestión de negocio con punto de venta, catálogo, inventario y agenda online"
+        "notas": ""
       },
       "soporte": {
         "canales": "",
@@ -58,21 +58,21 @@
         "notas": ""
       },
       "financieros": {
-        "adelanto": "TUU Adelanto, acepta pagos con TUU y obtén un adelanto de tus ventas de hasta $15 millones",
+        "adelanto": "TUU Adelanto, hasta $15 millones",
         "monto_max_adelanto": 15000000,
-        "credito": "Cuotas TUU, vende más ofreciendo a tus clientes pagar en cuotas con un interés más bajo",
+        "credito": "Cuotas TUU, con interés más bajo",
         "cuotas_sin_interes": "",
         "comision_cuotas": null,
-        "notas": "Financiamiento con adelanto y cuotas"
+        "notas": ""
       },
       "scores": {
-        "comisiones": 5,
-        "hardware": 3,
-        "documentos": 5,
-        "abono": 5,
-        "gestion": 5,
-        "soporte": 3,
-        "financieros": 5
+        "comisiones": 3.0,
+        "hardware": 3.0,
+        "documentos": 3.0,
+        "abono": 3.0,
+        "gestion": 3.0,
+        "soporte": 3.0,
+        "financieros": 3.0
       }
     },
     "klap": {
@@ -451,5 +451,5 @@
       }
     }
   },
-  "last_updated": "2026-06-26T15:24:35.031823+00:00"
+  "last_updated": "2026-06-26T16:25:54.092724+00:00"
 }
