@@ -8,11 +8,11 @@
         "prepago_pct": 1.49,
         "internacional_pct": null,
         "cargo_fijo": 65,
-        "mensualidad_red": null,
+        "mensualidad_red": 15000,
         "notas_comisiones": "La comisión más baja del mercado, misma comisión para pagos con débito, crédito y prepago"
       },
       "hardware": {
-        "modelo_principal": "Máquina de Pagos PRO 2",
+        "modelo_principal": "PRO 2",
         "precio_lista_clp": null,
         "precio_oferta_clp": null,
         "modalidad": "compra",
@@ -21,7 +21,7 @@
         "impresora": "",
         "conectividad": "",
         "garantia": "",
-        "notas": "55% de descuento en la máquina de pagos PRO 2"
+        "notas": "Máquina de Pagos PRO 2 con 55% de descuento"
       },
       "documentos": {
         "boleta": "Emite boletas y facturas sin límites ni comisiones adicionales",
@@ -33,21 +33,21 @@
       },
       "abono": {
         "plazo_estandar": "1 día hábil",
-        "abono_inmediato": "Recibe el abono de tus ventas diarias el mismo día solicitando abono inmediato desde tu POS",
+        "abono_inmediato": "Sí, recibe el abono de tus ventas diarias el mismo día",
         "costo_abono_inmediato": null,
         "destino": "",
         "fines_de_semana": "",
-        "notas": "Tus abonos desde 1 día hábil, en todas tus transacciones"
+        "notas": "Tus abonos desde 1 día hábil, sin cortes de horario bancario"
       },
       "gestion": {
-        "pos": "Punto de venta para vender ágilmente con catálogo e inventario",
-        "catalogo": "Organiza tus productos y obtén capacidad ilimitada",
-        "inventario": "Controla el stock de tus productos de forma gratuita",
-        "agenda": "Gestiona tu agenda online, envía recordatorios y acepta pagos",
-        "multilocal": "Controla todas las sucursales que cuenten con TUU POS interconectadas",
+        "pos": "Punto de venta para vender ágilmente",
+        "catalogo": "Catálogo para organizar tus productos",
+        "inventario": "Inventario para controlar el stock de tus productos",
+        "agenda": "Agenda online para gestionar tus horas",
+        "multilocal": "Puedes tener cuantos dispositivos quieras e incluso controlar desde un solo lugar todas las sucursales",
         "reportes": "",
         "app_movil": "",
-        "notas": "Ilimitados Puntos de ventas, catálogo con productos ilimitados y variantes de producto, inventarios ilimitados"
+        "notas": "Gestión de negocio con punto de venta, catálogo, inventario y agenda online"
       },
       "soporte": {
         "canales": "",
@@ -63,11 +63,11 @@
         "credito": "Cuotas TUU, vende más ofreciendo a tus clientes pagar en cuotas con un interés más bajo",
         "cuotas_sin_interes": "",
         "comision_cuotas": null,
-        "notas": ""
+        "notas": "TUU Adelanto y Cuotas TUU para ayudar a tu negocio"
       },
       "scores": {
         "comisiones": 5,
-        "hardware": 4,
+        "hardware": 3,
         "documentos": 5,
         "abono": 5,
         "gestion": 5,
@@ -153,59 +153,59 @@
     "transbank": {
       "name": "Transbank",
       "comisiones": {
-        "debito_pct": 1.75,
-        "credito_pct": 2.35,
-        "prepago_pct": 1.75,
-        "internacional_pct": 2.35,
+        "debito_pct": 1.49,
+        "credito_pct": 1.49,
+        "prepago_pct": null,
+        "internacional_pct": null,
         "cargo_fijo": null,
         "mensualidad_red": null,
-        "notas_comisiones": "Comisión mínima de 0,002260 UF para débito/prepago y 0,003515 UF para crédito"
+        "notas_comisiones": "Depende del tipo de negocio y equipo utilizado"
       },
       "hardware": {
-        "modelo_principal": "Mobile POS",
+        "modelo_principal": "POS Móvil, Estándar o Fijo",
         "precio_lista_clp": null,
         "precio_oferta_clp": null,
-        "modalidad": "compra",
+        "modalidad": "arriendo o compra",
         "mensualidad": null,
         "pantalla": "",
         "impresora": "",
         "conectividad": "",
         "garantia": "",
-        "notas": ""
+        "notas": "El equipo Mobile POS no tiene arriendo"
       },
       "documentos": {
-        "boleta": "",
+        "boleta": "Boleta Electrónica",
         "costo_boleta_mes": null,
         "factura": "",
         "costo_factura_mes": null,
         "guia_despacho": "",
-        "notas": ""
+        "notas": "La boleta electrónica es parte del servicio"
       },
       "abono": {
-        "plazo_estandar": "24 a 72 horas",
+        "plazo_estandar": "Depósito diario",
         "abono_inmediato": "",
         "costo_abono_inmediato": null,
-        "destino": "",
-        "fines_de_semana": "",
-        "notas": ""
+        "destino": "Cuenta bancaria",
+        "fines_de_semana": "No se deposita",
+        "notas": "El abono se realiza diariamente"
       },
       "gestion": {
-        "pos": "Portal de Clientes y App",
+        "pos": "Portal de Clientes",
         "catalogo": "",
         "inventario": "",
         "agenda": "",
         "multilocal": "",
-        "reportes": "",
-        "app_movil": "",
-        "notas": ""
+        "reportes": "Cartola de Movimientos",
+        "app_movil": "Cobro QR y Onepay",
+        "notas": "El portal de clientes ofrece various herramientas de gestión"
       },
       "soporte": {
-        "canales": "Whatsapp, teléfono, chat en línea",
-        "horario": "Lunes a domingo de 08:00 a 22:00 horas",
+        "canales": "Teléfono, correo electrónico, portal de ayuda",
+        "horario": "",
         "garantia": "",
         "tiempo_respuesta": "",
         "sla": "",
-        "notas": ""
+        "notas": "El soporte técnico está disponible"
       },
       "financieros": {
         "adelanto": "",
@@ -213,16 +213,16 @@
         "credito": "",
         "cuotas_sin_interes": "",
         "comision_cuotas": null,
-        "notas": ""
+        "notas": "No se ofrecen adelantos o créditos"
       },
       "scores": {
-        "comisiones": 4,
-        "hardware": 3,
-        "documentos": 3,
-        "abono": 4,
-        "gestion": 4,
-        "soporte": 5,
-        "financieros": 3
+        "comisiones": 3.0,
+        "hardware": 3.0,
+        "documentos": 3.0,
+        "abono": 3.0,
+        "gestion": 3.0,
+        "soporte": 3.0,
+        "financieros": 3.0
       }
     },
     "mercadopago": {
@@ -303,19 +303,19 @@
     "getnet": {
       "name": "Getnet (Santander)",
       "comisiones": {
-        "debito_pct": 0.39,
-        "credito_pct": 0.39,
+        "debito_pct": 1.49,
+        "credito_pct": 1.49,
         "prepago_pct": null,
         "internacional_pct": null,
         "cargo_fijo": null,
-        "mensualidad_red": 0.39,
-        "notas_comisiones": "UF + IVA Mensual por equipo"
+        "mensualidad_red": null,
+        "notas_comisiones": ""
       },
       "hardware": {
-        "modelo_principal": "",
+        "modelo_principal": "Smart POS",
         "precio_lista_clp": null,
         "precio_oferta_clp": null,
-        "modalidad": "",
+        "modalidad": "compra",
         "mensualidad": null,
         "pantalla": "",
         "impresora": "",
@@ -340,7 +340,7 @@
         "notas": ""
       },
       "gestion": {
-        "pos": "",
+        "pos": "Smart POS",
         "catalogo": "",
         "inventario": "",
         "agenda": "",
@@ -350,7 +350,7 @@
         "notas": ""
       },
       "soporte": {
-        "canales": "",
+        "canales": "Centro de ayuda, Developers, Preguntas frecuentes",
         "horario": "",
         "garantia": "",
         "tiempo_respuesta": "",
@@ -366,13 +366,13 @@
         "notas": ""
       },
       "scores": {
-        "comisiones": 4.0,
-        "hardware": 1.0,
-        "documentos": 1.0,
-        "abono": 1.0,
-        "gestion": 1.0,
-        "soporte": 1.0,
-        "financieros": 1.0
+        "comisiones": 3.0,
+        "hardware": 3.0,
+        "documentos": 3.0,
+        "abono": 3.0,
+        "gestion": 3.0,
+        "soporte": 3.0,
+        "financieros": 3.0
       }
     },
     "flow": {
@@ -436,7 +436,7 @@
         "adelanto": "",
         "monto_max_adelanto": null,
         "credito": "",
-        "cuotas_sin_interes": "2 a 12 cuotas",
+        "cuotas_sin_interes": "2 y 3 cuotas, 4 a 6 cuotas, 7 a 12 cuotas",
         "comision_cuotas": 1.99,
         "notas": ""
       },
@@ -451,5 +451,5 @@
       }
     }
   },
-  "last_updated": "2026-06-26T16:32:43.918452+00:00"
+  "last_updated": "2026-06-26T16:39:37.731221+00:00"
 }
