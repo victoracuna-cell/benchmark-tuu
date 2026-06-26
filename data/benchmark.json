@@ -1,0 +1,155 @@
+{
+  "competitors": {
+    "tuu": {
+      "name": "TUU",
+      "comisiones": {
+        "debito_pct": 1.49,
+        "credito_pct": 1.49,
+        "prepago_pct": 1.49,
+        "internacional_pct": null,
+        "cargo_fijo": 65,
+        "mensualidad_red": null,
+        "notas_comisiones": "La comisión más baja del mercado, misma comisión para pagos con débito, crédito y prepago."
+      },
+      "hardware": {
+        "modelo_principal": "Máquina de Pagos PRO 2",
+        "precio_lista_clp": null,
+        "precio_oferta_clp": null,
+        "modalidad": "compra",
+        "mensualidad": null,
+        "pantalla": "",
+        "impresora": "",
+        "conectividad": "",
+        "garantia": "",
+        "notas": "Máquina de Pagos PRO 2 con 55% de descuento"
+      },
+      "documentos": {
+        "boleta": "Emite boletas y facturas sin límites ni comisiones adicionales",
+        "costo_boleta_mes": null,
+        "factura": "Emite facturas sin límites ni comisiones adicionales",
+        "costo_factura_mes": null,
+        "guia_despacho": "Emite guía de despacho electrónica",
+        "notas": "Emisión ilimitada de boletas, facturas y guías de despacho electrónicas"
+      },
+      "abono": {
+        "plazo_estandar": "1 día hábil",
+        "abono_inmediato": "Recibe el abono de tus ventas diarias el mismo día solicitando abono inmediato",
+        "costo_abono_inmediato": null,
+        "destino": "",
+        "fines_de_semana": "",
+        "notas": "Tus abonos desde 1 día hábil, en todas tus transacciones"
+      },
+      "gestion": {
+        "pos": "Punto de venta para vender ágilmente con catálogo e inventario",
+        "catalogo": "Catálogo con productos ilimitados y variantes de producto",
+        "inventario": "Inventario ilimitado sin tope de bodegas y/o sucursales",
+        "agenda": "Agenda online con sistema de reserva de horas",
+        "multilocal": "",
+        "reportes": "",
+        "app_movil": "",
+        "notas": "Gestión de negocio con punto de venta, catálogo, inventario y agenda online"
+      },
+      "soporte": {
+        "canales": "",
+        "horario": "",
+        "garantia": "",
+        "tiempo_respuesta": "",
+        "sla": "",
+        "notas": ""
+      },
+      "financieros": {
+        "adelanto": "TUU Adelanto, acepta pagos con TUU y obtén un adelanto de tus ventas de hasta $15 millones",
+        "monto_max_adelanto": 15000000,
+        "credito": "",
+        "cuotas_sin_interes": "Cuotas TUU, vende más ofreciendo a tus clientes pagar en cuotas con un interés más bajo",
+        "comision_cuotas": null,
+        "notas": "Financiamiento con TUU Adelanto y Cuotas TUU"
+      },
+      "scores": {
+        "comisiones": 5,
+        "hardware": 3,
+        "documentos": 5,
+        "abono": 5,
+        "gestion": 5,
+        "soporte": 3,
+        "financieros": 5
+      }
+    },
+    "klap": {
+      "name": "Klap",
+      "comisiones": {
+        "debito_pct": 0.62,
+        "credito_pct": 1.39,
+        "prepago_pct": 1.06,
+        "internacional_pct": 2.88,
+        "cargo_fijo": 77,
+        "mensualidad_red": 0.39,
+        "notas_comisiones": "Tarifa por servicio de red por cada equipo, UF 0,39 + IVA para SmartPOS y POS tradicional"
+      },
+      "hardware": {
+        "modelo_principal": "SmartPOS (Android)",
+        "precio_lista_clp": null,
+        "precio_oferta_clp": null,
+        "modalidad": "arriendo",
+        "mensualidad": 0,
+        "pantalla": "",
+        "impresora": "",
+        "conectividad": "",
+        "garantia": "",
+        "notas": "No se cobra mensualidad si se venden más de $200.000 en recargas, juegos de azar y el 10% de otros servicios"
+      },
+      "documentos": {
+        "boleta": "Boleta Electrónica",
+        "costo_boleta_mes": 0.39,
+        "factura": "",
+        "costo_factura_mes": null,
+        "guia_despacho": "",
+        "notas": "El costo de la boleta electrónica es de 0,39 UF + IVA al mes"
+      },
+      "abono": {
+        "plazo_estandar": "",
+        "abono_inmediato": "",
+        "costo_abono_inmediato": null,
+        "destino": "",
+        "fines_de_semana": "",
+        "notas": ""
+      },
+      "gestion": {
+        "pos": "SmartPOS (Android)",
+        "catalogo": "",
+        "inventario": "",
+        "agenda": "",
+        "multilocal": "",
+        "reportes": "",
+        "app_movil": "",
+        "notas": ""
+      },
+      "soporte": {
+        "canales": "",
+        "horario": "",
+        "garantia": "",
+        "tiempo_respuesta": "",
+        "sla": "",
+        "notas": ""
+      },
+      "financieros": {
+        "adelanto": "",
+        "monto_max_adelanto": null,
+        "credito": "",
+        "cuotas_sin_interes": "",
+        "comision_cuotas": null,
+        "notas": ""
+      },
+      "scores": {
+        "comisiones": 4,
+        "hardware": 4,
+        "documentos": 4,
+        "abono": 3,
+        "gestion": 3,
+        "soporte": 3,
+        "financieros": 3
+      }
+    }
+  },
+  "last_updated": "2026-06-26T15:22:24.207012+00:00"
+}
