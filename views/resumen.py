@@ -22,7 +22,7 @@ def render(data: dict):
         fig = go.Figure()
         for comp in ordered:
             scores = all_scores.get(comp, {})
-            values = [scores.get(d, 0) for d in DIMENSIONS]
+            values = [float(scores.get(d) or 0) for d in DIMENSIONS]
             values_c = values + [values[0]]
             labels_c = dim_labels + [dim_labels[0]]
             info = competitors[comp]
