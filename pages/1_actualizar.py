@@ -1,7 +1,7 @@
 import streamlit as st
 from utils.styles import GLOBAL_CSS
 from utils.github_storage import load_data, save_data, upsert_competitor
-from utils.firecrawl_scraper import scrape_url, scrape_competitor, COMPETITOR_SEEDS
+from utils.firecrawl_scraper import scrape_competitor, scrape_with_browserless, COMPETITOR_SEEDS
 from utils.ui import render_sidebar
 import json
 import requests
