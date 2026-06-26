@@ -44,7 +44,7 @@ def scrape_with_browserless(url: str, wait_for: int = 3000) -> str:
         r = requests.post(
             f"{BROWSERLESS_API}/content",
             params={"token": key},
-            json={"url": url, "waitFor": wait_for, "rejectResourceTypes": ["image", "font", "media"]},
+            json={"url": url, "waitFor": wait_for},
             timeout=35,
         )
         if r.status_code != 200:
