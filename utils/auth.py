@@ -2,18 +2,24 @@ import streamlit as st
 import requests
 
 SUPABASE_URL = "https://smbcicbjpgexxaizbtgo.supabase.co"
-SUPABASE_KEY = "sb_publishable_4Nz0IG2hkMP6M-8HNrAuAQ_hwYbA5qz"
+ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNtYmNpY2JqcGdleHhhaXpidGdvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI0ODM0NDMsImV4cCI6MjA5ODA1OTQ0M30.5GCWg-puUahs15-NMLSGF1L9LcrlJXBKD0QUaL5BuVA"
 
-HEADERS = {
-    "apikey": SUPABASE_KEY,
-    "Content-Type": "application/json",
-}
+def _url():
+    return st.secrets.get("SUPABASE_URL", SUPABASE_URL)
+
+def _key():
+    return st.secrets.get("SUPABASE_ANON_KEY", ANON_KEY)
+
+def _h(token=None):
+    h = {"apikey": _key(), "Content-Type": "application/json"}
+    if token:
+        h["Authorization"] = f"Bearer {token}"
+    return h
 
 def login(email: str, password: str) -> dict | None:
-    """Authenticate user with Supabase Auth."""
     r = requests.post(
-        f"{SUPABASE_URL}/auth/v1/token?grant_type=password",
-        headers=HEADERS,
+        f"{_url()}/auth/v1/token?grant_type=password",
+        headers=_h(),
         json={"email": email, "password": password},
         timeout=10,
     )
@@ -22,10 +28,9 @@ def login(email: str, password: str) -> dict | None:
     return None
 
 def get_user_role(user_id: str, access_token: str) -> str:
-    """Get user role from profiles table."""
     r = requests.get(
-        f"{SUPABASE_URL}/rest/v1/profiles?user_id=eq.{user_id}&select=role",
-        headers={**HEADERS, "Authorization": f"Bearer {access_token}"},
+        f"{_url()}/rest/v1/profiles?user_id=eq.{user_id}&select=role",
+        headers=_h(access_token),
         timeout=10,
     )
     if r.status_code == 200 and r.json():
@@ -33,29 +38,26 @@ def get_user_role(user_id: str, access_token: str) -> str:
     return "readonly"
 
 def get_all_users(access_token: str) -> list:
-    """Get all users from profiles table (admin only)."""
     r = requests.get(
-        f"{SUPABASE_URL}/rest/v1/profiles?select=*",
-        headers={**HEADERS, "Authorization": f"Bearer {access_token}"},
+        f"{_url()}/rest/v1/profiles?select=*",
+        headers=_h(access_token),
         timeout=10,
     )
     return r.json() if r.status_code == 200 else []
 
 def create_user(email: str, password: str, name: str, role: str, service_key: str) -> bool:
-    """Create a new user via Supabase Admin API (requires service key)."""
     r = requests.post(
-        f"{SUPABASE_URL}/auth/v1/admin/users",
-        headers={**HEADERS, "Authorization": f"Bearer {service_key}"},
+        f"{_url()}/auth/v1/admin/users",
+        headers={**_h(), "Authorization": f"Bearer {service_key}"},
         json={"email": email, "password": password, "email_confirm": True,
               "user_metadata": {"name": name, "role": role}},
         timeout=10,
     )
     if r.status_code == 200:
         user_id = r.json().get("id")
-        # Insert into profiles
         requests.post(
-            f"{SUPABASE_URL}/rest/v1/profiles",
-            headers={**HEADERS, "Authorization": f"Bearer {service_key}"},
+            f"{_url()}/rest/v1/profiles",
+            headers={**_h(), "Authorization": f"Bearer {service_key}"},
             json={"user_id": user_id, "email": email, "name": name, "role": role},
             timeout=10,
         )
@@ -63,41 +65,31 @@ def create_user(email: str, password: str, name: str, role: str, service_key: st
     return False
 
 def delete_user(user_id: str, service_key: str) -> bool:
-    """Delete a user (requires service key)."""
     r = requests.delete(
-        f"{SUPABASE_URL}/auth/v1/admin/users/{user_id}",
-        headers={**HEADERS, "Authorization": f"Bearer {service_key}"},
+        f"{_url()}/auth/v1/admin/users/{user_id}",
+        headers={**_h(), "Authorization": f"Bearer {service_key}"},
         timeout=10,
     )
     if r.status_code == 200:
         requests.delete(
-            f"{SUPABASE_URL}/rest/v1/profiles?user_id=eq.{user_id}",
-            headers={**HEADERS, "Authorization": f"Bearer {service_key}"},
+            f"{_url()}/rest/v1/profiles?user_id=eq.{user_id}",
+            headers={**_h(), "Authorization": f"Bearer {service_key}"},
             timeout=10,
         )
         return True
     return False
 
 def logout():
-    """Clear session state."""
     for key in ["user", "role", "access_token", "user_id", "user_name"]:
         st.session_state.pop(key, None)
 
 def require_auth():
-    """
-    Call at top of every page.
-    Returns role string if authenticated, else stops execution.
-    """
     if "user" not in st.session_state:
         st.switch_page("app.py")
         st.stop()
     return st.session_state.get("role", "readonly")
 
 def require_admin():
-    """
-    Call at top of admin-only pages.
-    Stops execution if not admin.
-    """
     role = require_auth()
     if role != "admin":
         st.error("No tienes permisos para acceder a esta sección.")
