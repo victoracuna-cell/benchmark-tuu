@@ -2,18 +2,27 @@ import streamlit as st
 
 st.set_page_config(
     page_title="Benchmark TUU",
-    page_icon="📊",
+    page_icon="●",
     layout="wide",
     initial_sidebar_state="expanded",
 )
 
 from utils.styles import GLOBAL_CSS
-from utils.github_storage import load_data
+from utils.login_ui import render_login
+from utils.auth import logout
 from utils.ui import render_sidebar
 from datetime import date
 
+# ── Auth gate ──
+if "user" not in st.session_state:
+    render_login()
+    st.stop()
+
 st.markdown(GLOBAL_CSS, unsafe_allow_html=True)
 render_sidebar()
+
+from utils.github_storage import load_data
+from utils.scoring import COMPETITOR_ORDER, weighted_total, get_all_scores
 
 data = load_data()
 competitors = data.get("competitors", {}) if data else {}
@@ -23,7 +32,7 @@ last_date = last_updated[:10] if last_updated else "—"
 st.markdown(f"""
 <div class="page-header">
   <div>
-    <div class="page-title">Mercado de <span>pagos</span><br>Chile 2026</div>
+    <div class="page-title">Benchmark <span>TUU</span></div>
     <div class="page-sub">
       <span class="dot-cyan"></span>
       TUU vs 5 competidores · 7 dimensiones
@@ -37,7 +46,6 @@ if not competitors:
     st.info("Sin datos todavía. Ve a **Actualizar datos** en el menú para hacer el primer scraping.")
     st.stop()
 
-from utils.scoring import COMPETITOR_ORDER, weighted_total, get_all_scores
 all_scores = get_all_scores(data)
 ordered = [c for c in COMPETITOR_ORDER if c in competitors]
 totals = {c: weighted_total(all_scores.get(c, {})) for c in ordered}
