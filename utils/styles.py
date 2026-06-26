@@ -1,4 +1,6 @@
 GLOBAL_CSS = """
+<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-rounded/css/uicons-solid-rounded.css'>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
@@ -257,6 +259,42 @@ hr { border: none !important; border-top: 1px solid #ebebeb !important; margin: 
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: #e0e0e0; border-radius: 99px; }
 ::-webkit-scrollbar-thumb:hover { background: #0128c9; }
+
+/* ── UIcons (Flaticon) ── */
+.fi { font-size: 1rem; vertical-align: middle; line-height: 1; }
+.fi-sm { font-size: 0.85rem; }
+.fi-lg { font-size: 1.25rem; }
+.icon-blue { color: #0128c9; }
+.icon-gray { color: #888; }
+.icon-cyan { color: #00b3b0; }
+
+/* Nav items with UIcons */
+.sb-nav-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 12px; border-radius: 8px;
+    font-size: 0.78rem; color: #555; cursor: pointer;
+    margin-bottom: 2px; text-decoration: none;
+}
+.sb-nav-item:hover { background: #f5f7ff; color: #0128c9; }
+.sb-nav-item.active { background: #f5f7ff; color: #0128c9; font-weight: 500; }
+.sb-nav-item .fi { color: #aaa; font-size: 1rem; }
+.sb-nav-item:hover .fi, .sb-nav-item.active .fi { color: #0128c9; }
+
+/* Stat row with icon */
+.stat-icon-row {
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 0; border-bottom: 1px solid #f5f5f5;
+}
+.stat-icon-row:last-child { border-bottom: none; }
+.stat-icon-box {
+    width: 28px; height: 28px; border-radius: 7px;
+    background: #f5f7ff; display: flex; align-items: center;
+    justify-content: center; flex-shrink: 0;
+}
+.stat-icon-box .fi { color: #0128c9; font-size: 0.85rem; }
+.stat-label { font-size: 11px; color: #888; flex: 1; }
+.stat-value { font-size: 12px; font-weight: 600; color: #0128c9; }
+
 
 /* ── Number input ── */
 [data-testid="stNumberInput"] input {
