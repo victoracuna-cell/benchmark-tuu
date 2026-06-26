@@ -51,20 +51,22 @@ def call_groq(comp_name: str, raw_text: str) -> dict:
 with st.expander("Verificar conexiones", expanded=False):
     col1, col2 = st.columns(2)
     with col1:
-        if st.button("Test Firecrawl"):
-            key = st.secrets.get("FIRECRAWL_API_KEY", "")
+        if st.button("Test Browserless"):
+            import re
+            key = st.secrets.get("BROWSERLESS_API_KEY", "")
             st.write(f"Key: `{'Sí — ' + key[:10] + '...' if key else 'NO encontrado'}`")
             r = requests.post(
-                "https://api.firecrawl.dev/v1/scrape",
-                headers={"Authorization": f"Bearer {key}"},
-                json={"url": "https://www.tuu.cl/precios", "formats": ["markdown"], "onlyMainContent": True},
-                timeout=20,
+                "https://chrome.browserless.io/content",
+                params={"token": key},
+                json={"url": "https://www.tuu.cl/precios", "waitFor": 2000},
+                timeout=25,
             )
             st.write(f"HTTP: `{r.status_code}`")
             if r.status_code == 200:
-                content = r.json().get("data", {}).get("markdown", "")
-                st.success(f"Firecrawl OK — {len(content)} chars extraídos")
-                st.text(content[:300] + "...")
+                text = re.sub(r'<[^>]+>', ' ', r.text)
+                text = re.sub(r'\s+', ' ', text).strip()
+                st.success(f"Browserless OK — {len(text)} chars extraídos")
+                st.text(text[:300] + "...")
             else:
                 st.error(f"Error: {r.text[:200]}")
     with col2:
