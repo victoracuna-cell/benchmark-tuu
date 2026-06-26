@@ -1,86 +1,85 @@
 import streamlit as st
+import hashlib
+import hmac
+import json
 import requests
+import base64
+from datetime import datetime, timezone
 
-SUPABASE_URL = "https://smbcicbjpgexxaizbtgo.supabase.co"
-ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNtYmNpY2JqcGdleHhhaXpidGdvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI0ODM0NDMsImV4cCI6MjA5ODA1OTQ0M30.5GCWg-puUahs15-NMLSGF1L9LcrlJXBKD0QUaL5BuVA"
+# ── Helpers GitHub ──
+def _gh_headers():
+    token = st.secrets.get("GITHUB_TOKEN", "")
+    return {"Authorization": f"token {token}", "Accept": "application/vnd.github.v3+json"}
 
-def _url():
-    return st.secrets.get("SUPABASE_URL", SUPABASE_URL)
+def _users_url():
+    repo = st.secrets.get("GITHUB_REPO", "")
+    return f"https://api.github.com/repos/{repo}/contents/data/users.json"
 
-def _key():
-    return st.secrets.get("SUPABASE_ANON_KEY", ANON_KEY)
+def _hash_password(password: str) -> str:
+    return hashlib.sha256(password.encode()).hexdigest()
 
-def _h(token=None):
-    h = {"apikey": _key(), "Content-Type": "application/json"}
-    if token:
-        h["Authorization"] = f"Bearer {token}"
-    return h
-
-def login(email: str, password: str) -> dict | None:
-    r = requests.post(
-        f"{_url()}/auth/v1/token?grant_type=password",
-        headers=_h(),
-        json={"email": email, "password": password},
-        timeout=10,
-    )
+def _load_users() -> dict:
+    r = requests.get(_users_url(), headers=_gh_headers(), timeout=10)
     if r.status_code == 200:
-        return r.json()
+        content = base64.b64decode(r.json()["content"]).decode()
+        return json.loads(content)
+    return {"users": []}
+
+def _save_users(data: dict, msg: str = "chore: update users") -> bool:
+    payload = json.dumps(data, ensure_ascii=False, indent=2).encode()
+    content_b64 = base64.b64encode(payload).decode()
+    r_get = requests.get(_users_url(), headers=_gh_headers(), timeout=10)
+    sha = r_get.json().get("sha") if r_get.status_code == 200 else None
+    body = {"message": msg, "content": content_b64}
+    if sha:
+        body["sha"] = sha
+    r = requests.put(_users_url(), headers=_gh_headers(), json=body, timeout=10)
+    return r.status_code in (200, 201)
+
+# ── Auth functions ──
+def login(email: str, password: str) -> dict | None:
+    data = _load_users()
+    pw_hash = _hash_password(password)
+    for u in data.get("users", []):
+        if u["email"].lower() == email.lower() and u["password_hash"] == pw_hash:
+            return u
     return None
 
-def get_user_role(user_id: str, access_token: str) -> str:
-    r = requests.get(
-        f"{_url()}/rest/v1/profiles?user_id=eq.{user_id}&select=role",
-        headers=_h(access_token),
-        timeout=10,
-    )
-    if r.status_code == 200 and r.json():
-        return r.json()[0].get("role", "readonly")
-    return "readonly"
+def get_all_users() -> list:
+    return _load_users().get("users", [])
 
-def get_all_users(access_token: str) -> list:
-    r = requests.get(
-        f"{_url()}/rest/v1/profiles?select=*",
-        headers=_h(access_token),
-        timeout=10,
-    )
-    return r.json() if r.status_code == 200 else []
+def create_user(email: str, password: str, name: str, role: str) -> bool:
+    data = _load_users()
+    # Check if email already exists
+    if any(u["email"].lower() == email.lower() for u in data.get("users", [])):
+        return False
+    data.setdefault("users", []).append({
+        "email": email,
+        "name": name,
+        "role": role,
+        "password_hash": _hash_password(password),
+        "created_at": datetime.now(timezone.utc).isoformat(),
+    })
+    return _save_users(data, f"chore: add user {email}")
 
-def create_user(email: str, password: str, name: str, role: str, service_key: str) -> bool:
-    r = requests.post(
-        f"{_url()}/auth/v1/admin/users",
-        headers={**_h(), "Authorization": f"Bearer {service_key}"},
-        json={"email": email, "password": password, "email_confirm": True,
-              "user_metadata": {"name": name, "role": role}},
-        timeout=10,
-    )
-    if r.status_code == 200:
-        user_id = r.json().get("id")
-        requests.post(
-            f"{_url()}/rest/v1/profiles",
-            headers={**_h(), "Authorization": f"Bearer {service_key}"},
-            json={"user_id": user_id, "email": email, "name": name, "role": role},
-            timeout=10,
-        )
-        return True
+def delete_user(email: str) -> bool:
+    data = _load_users()
+    before = len(data.get("users", []))
+    data["users"] = [u for u in data.get("users", []) if u["email"].lower() != email.lower()]
+    if len(data["users"]) < before:
+        return _save_users(data, f"chore: remove user {email}")
     return False
 
-def delete_user(user_id: str, service_key: str) -> bool:
-    r = requests.delete(
-        f"{_url()}/auth/v1/admin/users/{user_id}",
-        headers={**_h(), "Authorization": f"Bearer {service_key}"},
-        timeout=10,
-    )
-    if r.status_code == 200:
-        requests.delete(
-            f"{_url()}/rest/v1/profiles?user_id=eq.{user_id}",
-            headers={**_h(), "Authorization": f"Bearer {service_key}"},
-            timeout=10,
-        )
-        return True
+def update_password(email: str, new_password: str) -> bool:
+    data = _load_users()
+    for u in data.get("users", []):
+        if u["email"].lower() == email.lower():
+            u["password_hash"] = _hash_password(new_password)
+            return _save_users(data, f"chore: update password {email}")
     return False
 
 def logout():
-    for key in ["user", "role", "access_token", "user_id", "user_name"]:
+    for key in ["user", "role", "user_name", "user_email"]:
         st.session_state.pop(key, None)
 
 def require_auth():
