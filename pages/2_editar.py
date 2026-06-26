@@ -7,6 +7,9 @@ import json
 
 st.set_page_config(page_title="Editar datos · Benchmark TUU", layout="wide")
 st.markdown(GLOBAL_CSS, unsafe_allow_html=True)
+from utils.auth import require_admin
+require_admin()
+
 render_sidebar()
 
 st.title("✏️ Editar datos manualmente")
