@@ -39,6 +39,7 @@ def render_sidebar():
 
         if st.button("Cerrar sesión", use_container_width=True):
             logout()
+            st.query_params["logout"] = "true"
             st.rerun()
 
         st.markdown("""
