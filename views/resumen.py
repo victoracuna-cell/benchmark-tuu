@@ -87,6 +87,17 @@ def render(data: dict):
         st.markdown('<div class="card" style="margin-top:0.75rem;">', unsafe_allow_html=True)
         st.markdown('<div class="card-label">Score TUU por dimensi\u00f3n</div>', unsafe_allow_html=True)
         tuu_scores = all_scores.get("tuu", {})
+
+        DIM_ICONS = {
+            "comisiones": "fi-rr-percentage",
+            "hardware":   "fi-rr-mobile",
+            "documentos": "fi-rr-document",
+            "abono":      "fi-rr-time-fast",
+            "gestion":    "fi-rr-dashboard",
+            "soporte":    "fi-rr-headset",
+            "financieros":"fi-rr-credit-card",
+        }
+
         for dim in DIMENSIONS:
             s = tuu_scores.get(dim, 0) or 0
             filled = int(round(s))
@@ -99,11 +110,13 @@ def render(data: dict):
                 else:
                     dots += '<div style="width:18px;height:4px;border-radius:99px;background:#f0f0f0;"></div>'
             label = DIM_LABELS[dim].split(" ", 1)[-1]
+            icon = DIM_ICONS.get(dim, "fi-rr-apps")
             st.markdown(
-                '<div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid #f5f5f5;">'
-                f'<span style="font-size:11px;color:#555;width:105px;flex-shrink:0;">{label}</span>'
+                '<div class="stat-icon-row">'
+                f'<div class="stat-icon-box"><i class="fi {icon}"></i></div>'
+                f'<span class="stat-label">{label}</span>'
                 f'<div style="display:flex;gap:3px;">{dots}</div>'
-                f'<span style="font-size:11px;font-weight:600;color:#0128c9;margin-left:6px;">{s:.1f}</span>'
+                f'<span class="stat-value" style="margin-left:8px;">{s:.1f}</span>'
                 '</div>',
                 unsafe_allow_html=True
             )
