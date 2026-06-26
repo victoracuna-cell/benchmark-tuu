@@ -5,14 +5,14 @@
       "comisiones": {
         "debito_pct": 1.49,
         "credito_pct": 1.49,
-        "prepago_pct": null,
+        "prepago_pct": 1.49,
         "internacional_pct": null,
-        "cargo_fijo": null,
+        "cargo_fijo": 65,
         "mensualidad_red": null,
-        "notas_comisiones": ""
+        "notas_comisiones": "La comisión más baja del mercado, misma comisión para pagos con débito, crédito y prepago"
       },
       "hardware": {
-        "modelo_principal": "PRO 2",
+        "modelo_principal": "Máquina de Pagos PRO 2",
         "precio_lista_clp": null,
         "precio_oferta_clp": null,
         "modalidad": "compra",
@@ -21,33 +21,33 @@
         "impresora": "",
         "conectividad": "",
         "garantia": "",
-        "notas": "55% de descuento"
+        "notas": "55% de descuento en la máquina de pagos PRO 2"
       },
       "documentos": {
         "boleta": "Emite boletas y facturas sin límites ni comisiones adicionales",
         "costo_boleta_mes": null,
-        "factura": "Emite boletas y facturas sin límites ni comisiones adicionales",
+        "factura": "Emite facturas sin límites ni comisiones adicionales",
         "costo_factura_mes": null,
-        "guia_despacho": "",
-        "notas": ""
+        "guia_despacho": "Emite guía de despacho electrónica",
+        "notas": "Emisión ilimitada de boletas, facturas y guías de despacho electrónicas"
       },
       "abono": {
         "plazo_estandar": "1 día hábil",
-        "abono_inmediato": "Disponible, con recargo de comisión",
+        "abono_inmediato": "Recibe el abono de tus ventas diarias el mismo día solicitando abono inmediato desde tu POS",
         "costo_abono_inmediato": null,
-        "destino": "Cuenta bancaria",
-        "fines_de_semana": "Disponible",
-        "notas": "Monto máximo: $1.000.000 diarios"
+        "destino": "",
+        "fines_de_semana": "",
+        "notas": "Tus abonos desde 1 día hábil, en todas tus transacciones"
       },
       "gestion": {
-        "pos": "Punto de venta",
-        "catalogo": "Catálogo de productos",
-        "inventario": "Control de stock",
-        "agenda": "Reserva de horas",
-        "multilocal": "",
+        "pos": "Punto de venta para vender ágilmente con catálogo e inventario",
+        "catalogo": "Organiza tus productos y obtén capacidad ilimitada",
+        "inventario": "Controla el stock de tus productos de forma gratuita",
+        "agenda": "Gestiona tu agenda online, envía recordatorios y acepta pagos",
+        "multilocal": "Controla todas las sucursales que cuenten con TUU POS interconectadas",
         "reportes": "",
         "app_movil": "",
-        "notas": ""
+        "notas": "Ilimitados Puntos de ventas, catálogo con productos ilimitados y variantes de producto, inventarios ilimitados"
       },
       "soporte": {
         "canales": "",
@@ -58,21 +58,21 @@
         "notas": ""
       },
       "financieros": {
-        "adelanto": "TUU Adelanto, hasta $15 millones",
+        "adelanto": "TUU Adelanto, acepta pagos con TUU y obtén un adelanto de tus ventas de hasta $15 millones",
         "monto_max_adelanto": 15000000,
-        "credito": "Cuotas TUU, con interés más bajo",
+        "credito": "Cuotas TUU, vende más ofreciendo a tus clientes pagar en cuotas con un interés más bajo",
         "cuotas_sin_interes": "",
         "comision_cuotas": null,
         "notas": ""
       },
       "scores": {
-        "comisiones": 3.0,
-        "hardware": 3.0,
-        "documentos": 3.0,
-        "abono": 3.0,
-        "gestion": 3.0,
-        "soporte": 3.0,
-        "financieros": 3.0
+        "comisiones": 5,
+        "hardware": 4,
+        "documentos": 5,
+        "abono": 5,
+        "gestion": 5,
+        "soporte": 3,
+        "financieros": 5
       }
     },
     "klap": {
@@ -378,13 +378,13 @@
     "flow": {
       "name": "Flow",
       "comisiones": {
-        "debito_pct": null,
-        "credito_pct": null,
-        "prepago_pct": null,
+        "debito_pct": 2.89,
+        "credito_pct": 2.89,
+        "prepago_pct": 2.89,
         "internacional_pct": null,
-        "cargo_fijo": null,
+        "cargo_fijo": 0,
         "mensualidad_red": null,
-        "notas_comisiones": "Información no disponible"
+        "notas_comisiones": "Tasas de cuotas sin interés: 1,99% + IVA (2 y 3 cuotas), 3,49% + IVA (4 a 6 cuotas), 6,99% + IVA (7 a 12 cuotas)"
       },
       "hardware": {
         "modelo_principal": "",
@@ -396,7 +396,7 @@
         "impresora": "",
         "conectividad": "",
         "garantia": "",
-        "notas": "Información no disponible"
+        "notas": ""
       },
       "documentos": {
         "boleta": "",
@@ -404,15 +404,15 @@
         "factura": "",
         "costo_factura_mes": null,
         "guia_despacho": "",
-        "notas": "Información no disponible"
+        "notas": ""
       },
       "abono": {
-        "plazo_estandar": "",
-        "abono_inmediato": "",
-        "costo_abono_inmediato": null,
+        "plazo_estandar": "Abono al tercer día hábil",
+        "abono_inmediato": "Abono al día hábil siguiente",
+        "costo_abono_inmediato": 0,
         "destino": "",
         "fines_de_semana": "",
-        "notas": "Información no disponible"
+        "notas": ""
       },
       "gestion": {
         "pos": "",
@@ -422,7 +422,7 @@
         "multilocal": "",
         "reportes": "",
         "app_movil": "",
-        "notas": "Información no disponible"
+        "notas": ""
       },
       "soporte": {
         "canales": "",
@@ -430,26 +430,26 @@
         "garantia": "",
         "tiempo_respuesta": "",
         "sla": "",
-        "notas": "Información no disponible"
+        "notas": ""
       },
       "financieros": {
         "adelanto": "",
         "monto_max_adelanto": null,
         "credito": "",
-        "cuotas_sin_interes": "",
-        "comision_cuotas": null,
-        "notas": "Información no disponible"
+        "cuotas_sin_interes": "2 a 12 cuotas",
+        "comision_cuotas": 1.99,
+        "notas": ""
       },
       "scores": {
-        "comisiones": 1.0,
-        "hardware": 1.0,
-        "documentos": 1.0,
-        "abono": 1.0,
-        "gestion": 1.0,
-        "soporte": 1.0,
-        "financieros": 1.0
+        "comisiones": 4,
+        "hardware": 1,
+        "documentos": 1,
+        "abono": 4,
+        "gestion": 1,
+        "soporte": 1,
+        "financieros": 4
       }
     }
   },
-  "last_updated": "2026-06-26T16:25:54.092724+00:00"
+  "last_updated": "2026-06-26T16:32:43.918452+00:00"
 }
