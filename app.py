@@ -14,8 +14,14 @@ from utils.ui import render_sidebar
 from datetime import date
 
 # ── Auth gate ──
+# Handle logout via query param
+if st.query_params.get("logout") == "true":
+    for key in ["user", "role", "access_token", "user_id", "user_name"]:
+        st.session_state.pop(key, None)
+    st.query_params.clear()
+    st.rerun()
+
 if "user" not in st.session_state or "access_token" not in st.session_state:
-    # Clear any partial state
     for key in ["user", "role", "access_token", "user_id", "user_name"]:
         st.session_state.pop(key, None)
     render_login()
